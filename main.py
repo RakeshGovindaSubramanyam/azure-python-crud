@@ -6,7 +6,7 @@ from typing import List
 app = FastAPI()
 
 # Database connection
-connection_string = "Driver={ODBC Driver 17 for SQL Server};Server=YOUR_SERVER.database.windows.net;Database=YOUR_DB;UID=YOUR_USERNAME;PWD=YOUR_PASSWORD"
+connection_string = "Driver={ODBC Driver 17 for SQL Server};Server=python-crud-server.database.windows.net;Database=python-crud-db;UID=rakesh;PWD=Raki@054"
 
 class Item(BaseModel):
     name: str
