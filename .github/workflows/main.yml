@@ -17,18 +17,17 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: '3.11'
-    - name: Install ODBC Drivers
-      run: sudo apt-get install -y unixodbc-dev
 
-    #  Install ODBC Dependencies
-    - name: Install ODBC drivers and build tools
+    - name: Install ODBC Drivers and Dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y unixodbc-dev g++ build-essential
+        sudo apt-get install -y unixodbc-dev unixodbc libodbc1 odbcinst g++ build-essential
 
     - name: Install Python dependencies
       run: |
         python -m pip install --upgrade pip
+        pip install wheel
+        pip install pyodbc  # Install pyodbc separately to catch errors early
         pip install -r requirements.txt
 
     - name: Deploy to Azure Web App
