@@ -1,38 +1,48 @@
-name: Deploy FastAPI to Azure Web App
+name: Deploy to Azure
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
+    
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v2
       with:
         python-version: '3.11'
 
-    - name: Install ODBC Drivers and Dependencies
+    - name: Install ODBC Driver
       run: |
+        curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+        curl https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/prod.list | sudo tee /etc/apt/sources.list.d/mssql-release.list
         sudo apt-get update
-        sudo apt-get install -y unixodbc-dev unixodbc libodbc2 odbcinst g++ build-essential
+        sudo ACCEPT_EULA=Y apt-get install -y msodbcsql17
 
-    - name: Install Python dependencies
+    - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install wheel
-        pip install pyodbc  # Install separately to catch errors early
         pip install -r requirements.txt
+        pip install gunicorn
+
+    - name: Create startup command
+      run: |
+        echo "gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app" > startup.sh
+        chmod +x startup.sh
 
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
         app-name: python-crud-app
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: .
+        publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE_PYTHON_CRUD_APP }}
+        startup-command: ./startup.sh
+
+    - name: Log deployment status
+      run: |
+        echo "Deployment completed successfully!"
