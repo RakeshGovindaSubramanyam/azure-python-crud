@@ -3,8 +3,14 @@ from pydantic import BaseModel
 import pyodbc
 from typing import List, Optional
 from config import get_connection_string
+from fastapi.responses import RedirectResponse
+
 
 app = FastAPI(title="Azure SQL CRUD API")
+
+@app.get("/")
+async def redirect_to_docs():
+    return RedirectResponse(url='/docs')
 
 # Database connection string from config
 connection_string = get_connection_string()
