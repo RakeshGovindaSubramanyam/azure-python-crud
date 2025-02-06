@@ -17,6 +17,8 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: '3.11'
+    - name: Install ODBC Drivers
+      run: sudo apt-get install -y unixodbc-dev
 
     #  Install ODBC Dependencies
     - name: Install ODBC drivers and build tools
