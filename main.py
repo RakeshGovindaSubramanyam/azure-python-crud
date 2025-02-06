@@ -24,7 +24,7 @@ class Item(ItemBase):
 
 @app.get("/")
 def read_root():
-    return {"message": "Welcome to Azure SQL CRUD API"}
+    return {"PYTHON-CRUD-APP": "Welcome to Azure SQL CRUD API"}
 
 @app.get("/items", response_model=List[Item])
 def read_items():
