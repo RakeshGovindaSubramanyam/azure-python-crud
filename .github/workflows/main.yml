@@ -31,6 +31,6 @@ jobs:
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
-        app-name: python-crud-app
+        app-name: azure-python-crud-app
         publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE_PYTHON_CRUD_APP }}
         package: .
