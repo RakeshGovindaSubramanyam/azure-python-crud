@@ -9,4 +9,4 @@ DATABASE_USERNAME = os.getenv("DATABASE_USERNAME")
 DATABASE_PASSWORD = os.getenv("DATABASE_PASSWORD")
 
 def get_connection_string():
-    return f"Driver={{ODBC Driver 17 for SQL Server}};Server=python-crud-server.database.windows.net;Database=python-crud-db;UID=rakesh;PWD=Pythoncrud123"
+    return f"Driver={{ODBC Driver 17 for SQL Server}};Server=python-crud-server.database.windows.net;Database=python-crud-db;UID=;PWD="
