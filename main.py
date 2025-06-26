@@ -100,7 +100,7 @@ def create_item(item: ItemCreate):
         new_id = cursor.fetchone()[0]
         conn.commit()
         
-        # Fetch the created item
+        #Fetch the created item
         cursor.execute("SELECT id, name, description FROM items WHERE id = ?", new_id)
         row = cursor.fetchone()
         
